@@ -1,5 +1,6 @@
 <template>
   <nav class="navbar">
+    <!-- Навігація для великих екранів -->
     <ul class="nav-links" :class="{ 'nav-active': isMenuOpen }">
       <li>
         <router-link to="/menugastro">Restaurant</router-link>
@@ -13,6 +14,13 @@
         <router-link to="/spagastro">SPA - Servis</router-link>
       </li>
     </ul>
+
+    <!-- Меню "бургер" для малих екранів -->
+    <div class="burger" @click="toggleMenu">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
   </nav>
 </template>
 
@@ -38,8 +46,9 @@ export default {
 
 <style scoped>
 .navbar {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   background-color: #331B17;
   opacity: 100%;
@@ -52,19 +61,16 @@ export default {
 }
 
 .logo h2 {
-  
   color: white;
   text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s ease;
   font-size: 1.5rem;
+  transition: color 0.3s ease;
 }
 
-
-
-.logo h2:hover{
+.logo h2:hover {
   color: #3498db;
 }
+
 .nav-links {
   display: flex;
   list-style: none;
@@ -133,28 +139,16 @@ export default {
     display: flex;
   }
 
-  .burger div.line1 {
+  .burger-active .line1 {
     transform: rotate(-45deg) translate(-5px, 6px);
   }
 
-  .burger div.line2 {
+  .burger-active .line2 {
     opacity: 0;
   }
 
-  .burger div.line3 {
-    transform: rotate(45deg) translate(-5px, -6px);
-  }
-
-  .burger-active .line1 {
-    transform: rotate(0);
-  }
-
-  .burger-active .line2 {
-    opacity: 1;
-  }
-
   .burger-active .line3 {
-    transform: rotate(0);
+    transform: rotate(45deg) translate(-5px, -6px);
   }
 }
 </style>

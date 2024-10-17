@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/views/HomePage.vue";
 import MenuGastro from "@/views/MenuGastro.vue";
-import index from "@/views/ExploreGastro/index.vue";
+import ExploreGastro from "@/views/ExploreGastro.vue";
 import SpaGastro from "@/views/SpaGastro.vue";
 
 const routes = [
@@ -18,7 +18,7 @@ const routes = [
   {
     path: "/exploregastro",
     name: "ExploreGastro",
-    component: index,
+    component: ExploreGastro,
   },
   {
     path: "/spagastro",

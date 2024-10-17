@@ -1,21 +1,30 @@
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
+import HomePage from "@/views/HomePage.vue";
+import MenuGastro from "@/views/MenuGastro.vue";
+import index from "@/views/ExploreGastro/index.vue";
+import SpaGastro from "@/views/SpaGastro.vue";
 
 const routes = [
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "HomePage",
+    component: HomePage,
   },
   {
-    path: "/about",
-    name: "about",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
+    path: "/menugastro",
+    name: "MenuGastro",
+    component: MenuGastro,
   },
+  {
+    path: "/exploregastro",
+    name: "ExploreGastro",
+    component: index,
+  },
+  {
+    path: "/spagastro",
+    name: "SpaGastro",
+    component: SpaGastro
+  }
 ];
 
 const router = createRouter({

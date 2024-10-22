@@ -22,10 +22,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .home-page {
   display: flex;
-  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   flex-direction: column;
   justify-content: center;
   align-items: center;

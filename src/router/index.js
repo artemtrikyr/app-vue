@@ -1,8 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomePage from "@/views/HomePage.vue";
-import MenuGastro from "@/views/MenuGastro.vue";
-import ExploreGastro from "@/views/ExploreGastro.vue";
-import SpaGastro from "@/views/SpaGastro.vue";
 
 const routes = [
   {
@@ -13,17 +10,17 @@ const routes = [
   {
     path: "/menugastro",
     name: "MenuGastro",
-    component: MenuGastro,
+    component: () => import ("@/views/MenuGastro.vue"),
   },
   {
     path: "/exploregastro",
     name: "ExploreGastro",
-    component: ExploreGastro,
+    component: () => import ("@/views/ExploreGastro.vue"),
   },
   {
     path: "/spagastro",
     name: "SpaGastro",
-    component: SpaGastro
+    component: () => import ("@/views/SpaGastro.vue"),
   }
 ];
 

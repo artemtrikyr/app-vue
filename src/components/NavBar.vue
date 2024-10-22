@@ -16,11 +16,11 @@
     </ul>
 
     <!-- Меню "бургер" для малих екранів -->
-    <div class="burger" @click="toggleMenu">
+    <!-- <div class="burger" @click="toggleMenu">
       <div class="line1"></div>
       <div class="line2"></div>
       <div class="line3"></div>
-    </div>
+    </div> -->
   </nav>
 </template>
 
@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .navbar {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   display: flex;

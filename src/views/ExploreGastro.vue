@@ -1,7 +1,7 @@
 <template>
   <div class="body-page">
     <div class="page1" id="section1-text">
-      <h1>Restaurant</h1>
+      <h1>*Restaurant*</h1>
       <p>
         Gastro Wer & Spa is a luxurious complex that offers a perfect blend of fine dining and relaxation.
         The restaurant features modern gourmet cuisine, with a focus on fresh, organic ingredients. Guests can enjoy
@@ -16,7 +16,7 @@
 
     <div class="page2">
       <div class="section2-text">
-        <h1>SPA salon</h1>
+        <h1>* SPA salon *</h1>
         <p>The spa at Gastro Wer is a modern oasis of tranquility and relaxation, where guests can unwind and
           rejuvenate in a harmonious atmosphere. The interior is designed in a minimalist style, using natural materials
           to create a cozy and calming environment. The spa offers a wide range of services, including various types of
@@ -29,7 +29,22 @@
           alt="cover img">
       </div>
     </div>
+
+    <div class="between-pages"></div>
+
+    <div class="page3" id="section3-text">
+      <h1>* About Us *</h1>
+      <p>
+        The staff at *GastroWer* are highly skilled professionals, specializing in various roles within the
+        hospitality and gastronomy industry. They are known for their dedication, expertise, and commitment to
+        delivering exceptional service. The team includes chefs, waitstaff, bartenders, and event coordinators who are
+        passionate about food and customer satisfaction. Their experience ensures smooth operations in restaurants,
+        catering services, and events, consistently upholding the highest standards of quality and efficiency.
+      </p>
+    </div>
+
   </div>
+
 </template>
 
 <script>
@@ -38,7 +53,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .body-page {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -46,6 +61,17 @@ export default {
 .between-pages {
   height: 10px;
   background-color: #221512;
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0; /* Прозорий на початку */
+    transform: translateX(-100%); /* Початок поза екраном зліва */
+  }
+  100% {
+    opacity: 1; /* Повна видимість */
+    transform: translateX(0); /* Зсув до початкової позиції */
+  }
 }
 
 /* -------------------- */
@@ -97,6 +123,8 @@ export default {
   color: #ffffff;
   /* Додаємо тінь до тексту */
   text-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+  opacity: 0; /* Початкова прозорість */
+  animation: slide-in-left 1s ease-out forwards; /* Тривалість 1 сек, ефект ease-out */
 }
 
 #section1-text p {
@@ -108,6 +136,8 @@ export default {
   padding-bottom: 10%;
   /* Додаємо тінь до тексту */
   text-shadow: 10px 10px 15px rgba(0, 0, 0, 5);
+  opacity: 0; /* Початкова прозорість */
+  animation: slide-in-left 1s ease-out forwards; /* Тривалість 1 сек, ефект ease-out */
 }
 
 /* ---------------------- */
@@ -199,4 +229,62 @@ export default {
   transform: scale(1.05);
   /* Легке збільшення зображення при наведенні */
 }
+
+/* ---------------------- */
+/* Секція номер 3 */
+/* ---------------------- */
+
+.page3 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100svh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+  background-image: url("https://www.timeout.ru/img/Маргарита/Промо/Абрау-Дюрсо/Команда%20шеф-поваров.jpg");
+}
+
+.page3::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 0;
+}
+
+#section3-text h1,
+#section3-text p {
+  position: relative;
+  z-index: 1;
+}
+
+#section3-text h1 {
+  font-size: 4rem;
+  padding: 20px;
+  text-align: center;
+  justify-content: center;
+  justify-items: center;
+  padding-top: 5%;
+  color: #ffffff;
+  /* Додаємо тінь до тексту */
+  text-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+}
+
+#section3-text p {
+  color: #ffffff;
+  font-size: 25px;
+  padding: 20px;
+  margin-left: 13%;
+  width: 80vw;
+  padding-bottom: 10%;
+  /* Додаємо тінь до тексту */
+  text-shadow: 10px 10px 15px rgba(0, 0, 0, 5);
+}
+
+
 </style>

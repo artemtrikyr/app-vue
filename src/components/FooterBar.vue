@@ -24,6 +24,7 @@
                 <li><a href="/menugastro">Menu</a></li>
                 <li><a href="/spagastro">SPA - Servis</a></li>
                 <li><a href="/exploregastro">About us</a></li>
+                <!-- <li><a href="/loginadmin" @click.prevent="goToLogin">Login for Admin</a></li> -->
             </ul>
         </div>
 
@@ -79,7 +80,14 @@
 <script>
 export default {
     name: 'FooterBar',
+    methods: {
+        // goToLogin() {
+        //     // Перехід до сторінки логіну
+        //     this.$router.push("/loginadmin");
+        // },
+    },
 }
+
 </script>
 
 <style>

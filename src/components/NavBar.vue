@@ -1,6 +1,10 @@
 <template>
   <nav class="navbar">
-    <!-- Навігація для великих екранів -->
+    <ul class="nav-links" :class="{ 'nav-active': isMenuOpen }">
+      <li>
+        <router-link to="/">Home</router-link>
+      </li>
+    </ul>
     <ul class="nav-links" :class="{ 'nav-active': isMenuOpen }">
       <li>
         <router-link to="/menugastro">Restaurant</router-link>
@@ -14,13 +18,12 @@
         <router-link to="/spagastro">SPA - Servis</router-link>
       </li>
     </ul>
-
-    <!-- Меню "бургер" для малих екранів -->
-    <!-- <div class="burger" @click="toggleMenu">
-      <div class="line1"></div>
-      <div class="line2"></div>
-      <div class="line3"></div>
-    </div> -->
+    <div class="nav-links">
+      <li>
+        <a v-if="!isAdmin" @click.prevent="HandleAuth">Login</a>
+        <a v-if="isAdmin" @click.prevent="HandleAuth">Logout</a>
+      </li>
+    </div>
   </nav>
 </template>
 
@@ -30,9 +33,9 @@ export default {
   data() {
     return {
       isMenuOpen: false,
+      isAdmin: localStorage.getItem("isAdmin") === "true", // Ініціалізація статусу
     };
   },
-
   methods: {
     toggleMenu() {
       this.isMenuOpen = !this.isMenuOpen;
@@ -40,11 +43,29 @@ export default {
     GoToHome() {
       this.$router.push('/');
     },
-  }
-}
+    HandleAuth() {
+      if (this.isAdmin) {
+        localStorage.removeItem("isAdmin");
+        this.isAdmin = false;
+        this.$router.push("/"); 
+      } else {
+        this.$router.push("/loginadmin");
+      }
+    },
+  },
+  watch: {
+    '$route'() {
+      this.isAdmin = localStorage.getItem("isAdmin") === "true"; 
+    },
+  },
+};
 </script>
 
-<style>
+
+
+
+
+<style scoped>
 .navbar {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   display: flex;
@@ -60,6 +81,7 @@ export default {
   z-index: 10;
 }
 
+
 .logo h2 {
   color: white;
   text-decoration: none;
@@ -74,12 +96,12 @@ export default {
 .nav-links {
   display: flex;
   list-style: none;
-  padding-left: 2%;
-  padding-right: 2%;
+  padding-left: 1.5%;
+  padding-right: 1.5%;
 }
 
 .nav-links li {
-  margin: 0 15px;
+  margin: 0 10px;
 }
 
 .nav-links li a {
@@ -93,17 +115,37 @@ export default {
   color: #3498db;
 }
 
+.button-login {
+
+  list-style: none;
+
+}
+
+.button-login li {}
+
+.button-login li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.button-login li a:hover {
+  color: #3498db;
+}
+
+
 /* Burger Menu */
-.burger {
+/* .burger {
   display: none;
   cursor: pointer;
   flex-direction: column;
   justify-content: space-between;
   width: 25px;
   height: 20px;
-}
+} */
 
-.burger div {
+/* .burger div {
   width: 100%;
   height: 3px;
   background-color: white;
@@ -150,5 +192,5 @@ export default {
   .burger-active .line3 {
     transform: rotate(45deg) translate(-5px, -6px);
   }
-}
+} */
 </style>

@@ -3,7 +3,9 @@
     <h2>{{ currentCategory }}</h2>
     <div v-for="dish in getDishesForCategory(currentCategory)" :key="dish.name">
       <MenuItem :dish="dish" />
+      
     </div>
+    
   </div>
 </template>
 
@@ -20,6 +22,7 @@ export default {
       type: String,
       required: true,
     },
+    
   },
   data() {
     return {

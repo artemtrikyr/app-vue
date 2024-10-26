@@ -7,7 +7,7 @@
     <div class="main-text">
       <p>Welcome to our complex!</p>
     </div>
-    <button @click="GoToPage">Explore!</button>
+    <button @click="GoToPage" class="button-explore">Explore!</button>
   </div>
 </template>
 
@@ -90,12 +90,12 @@ h1 {
 
 }
 
-button {
+.button-explore {
   width: 200px;
   height: 40px;
   border-radius: 30px;
   font-size: 1rem;
-  background-color: #353535;
+  background-color: #56423e;
   opacity: 90%;
   border: none;
   color: white;

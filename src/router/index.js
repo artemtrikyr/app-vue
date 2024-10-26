@@ -21,7 +21,12 @@ const routes = [
     path: "/spagastro",
     name: "SpaGastro",
     component: () => import ("@/views/SpaGastro.vue"),
-  }
+  },
+  {
+    path: "/loginadmin",
+    name: "LoginAdmin",
+    component: () => import ("@/views/LoginAdmin.vue"),
+  },
 ];
 
 const router = createRouter({

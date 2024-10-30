@@ -2,28 +2,43 @@
   <div>
     <div class="menu-container">
       <aside class="menu-sidebar">
+        <!-- Відображення категорій зліва -->
         <h2>Меню</h2>
         <ul>
-          <li v-for="category in categories" :key="category" @click="selectCategory(category)">
+          <li v-for="category in categoriesMenu" :key="category" @click="selectCategory(category)">
             {{ category }}
           </li>
         </ul>
+
         <div v-if="isAdmin">
-          <button id="button-menu" @click="addCategory">Додати категорію</button>
+          <input type="text" v-model="newCategory" placeholder="Нова категорія" /><br>
+          <button @click="addCategory(newCategory)">Додати категорію</button>
         </div>
       </aside>
 
+      <!-- Відображення контенту -->
       <section class="menu-content">
-        <MenuList :currentCategory="currentCategory" />
-        <button v-if="isAdmin" id="button-menu" @click="addDish">Додати страву</button>
-        <button v-if="isAdmin" id="button-menu" @click="deleteCategory">Видалити категорію</button>
+        <MenuList :currentCategory="currentCategory" 
+        :isAdmin="isAdmin" 
+        @add-dish="openAddDishForm"
+        @delete-category="handleDeleteCategory" />
       </section>
-      
+
+      <!-- Можливість додавання страви -->
+      <div v-if="showAddDishForm" class="add-dish-form">
+        <h3>Додати нову страву до {{ currentCategory }}</h3>
+        <input type="text" v-model="newDishName" placeholder="Назва страви" />
+        <input type="text" v-model="newDishDescription" placeholder="Опис страви" />
+        <input type="number" v-model="newDishPrice" placeholder="Ціна страви" />
+        <button @click="handleAddDish">Додати страву</button>
+        <button @click="closeAddDishForm">Скасувати</button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import MenuList from "@/components/MenuList.vue";
 
 export default {
@@ -33,46 +48,60 @@ export default {
   },
   data() {
     return {
-      categories: [
-        "Перші страви",
-        "Другі страви",
-        "Гриль",
-        "Салати",
-        "Сніданки",
-        "Лаваш",
-        "Закуски",
-        "Піца",
-        "Напої",
-      ],
       currentCategory: "Перші страви",
-      isAdmin: localStorage.getItem("isAdmin") === "true",
+      newCategory: "",
+      newDishName: "",
+      newDishDescription: "",
+      newDishPrice: null,
+      showAddDishForm: false,
     };
   },
-  mounted() {
-    // При завантаженні компонента перевіряємо localStorage
-    const adminStatus = localStorage.getItem("isAdmin");
-    if (adminStatus === "true") {
-      this.isAdmin = true; // Якщо користувач адмін, оновлюємо статус
+
+  computed: {
+    ...mapState(['categoriesMenu']),
+    isAdmin() {
+      return localStorage.getItem("isAdmin") === "true";
     }
   },
   methods: {
+    ...mapActions(['addCategory', 'deleteCategory', 'addDish']),
     selectCategory(category) {
       this.currentCategory = category;
     },
-    addDish() {
-      alert("Додавання страви");
+
+    //метод видалення категоріїї
+    handleDeleteCategory(currentCategory) {
+      this.deleteCategory(currentCategory);
     },
-    deleteCategory(){
-      alert("Видалення категорії");
+
+    //метод додававння страви
+    openAddDishForm() {
+      this.showAddDishForm = true;
     },
-    addCategory(){
-      alert("Додавання категорії")
-    }
+    closeAddDishForm() {
+      this.showAddDishForm = false;
+      this.newDishName = ""; // очищаємо поле введення
+      this.newDishDescription = "";
+      this.newDishPrice = null;
+    },
+
+    handleAddDish() {
+      if(this.newDishName && this.newDishDescription && this.newDishPrice){
+        const newDish = 
+        { 
+          name: this.newDishName,
+          description: this.newDishDescription,
+          price: this.newDishPrice
+        };
+        this.addDish({ category: this.currentCategory, dish: newDish });
+        this.closeAddDishForm();
+      } else {
+        alert("Введіть усі данні для страви");
+      }
+    },
   },
 };
 </script>
-
-
 <style>
 /* Загальна сторінка */
 .menu-container {
@@ -156,4 +185,18 @@ export default {
   transition: all 0.3s ease;
   font-weight: bolder;
 }
+
+
+.add-dish-form {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  z-index: 2;
+}
+.add-dish-form input {
+  margin-right: 10px;
+}
+
 </style>

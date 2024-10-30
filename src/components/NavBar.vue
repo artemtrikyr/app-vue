@@ -1,19 +1,19 @@
 <template>
   <nav class="navbar">
-    <ul class="nav-links" :class="{ 'nav-active': isMenuOpen }">
+    <ul class="nav-links">
       <li>
         <router-link to="/">Home</router-link>
       </li>
     </ul>
-    <ul class="nav-links" :class="{ 'nav-active': isMenuOpen }">
+    <ul class="nav-links">
       <li>
         <router-link to="/menugastro">Restaurant</router-link>
       </li>
     </ul>
     <div class="logo">
-      <h2 @click="GoToHome">Gastro Wer</h2>
+      <h2>Gastro Wer</h2>
     </div>
-    <ul class="nav-links" :class="{ 'nav-active': isMenuOpen }">
+    <ul class="nav-links">
       <li>
         <router-link to="/spagastro">SPA - Servis</router-link>
       </li>
@@ -32,7 +32,6 @@ export default {
   name: 'NavBar',
   data() {
     return {
-      isMenuOpen: false,
       isAdmin: localStorage.getItem("isAdmin") === "true", // Ініціалізація статусу
     };
   },
@@ -60,11 +59,6 @@ export default {
   },
 };
 </script>
-
-
-
-
-
 <style scoped>
 .navbar {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;

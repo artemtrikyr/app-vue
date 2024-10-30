@@ -2,47 +2,51 @@
   <div class="dish-item">
     <h3>{{ dish.name }}</h3>
     <p>{{ dish.description }}</p>
-    <span class="price">{{ dish.price }} грн</span><br><br>
-    <button id="button-edit-delete" v-if="isAdmin" @click="editDish">Редагувати</button>
-    <button id="button-edit-delete" v-if="isAdmin" @click="deleteDish">Видалити</button>
+    <span class="price">{{ dish.price }} грн</span> <br>
+    <div v-if="isAdmin">
+      <button @click="editDish">Редагувати</button>
+      <button @click="confirmDeleteDish">Видалити</button>
+    </div>
   </div>
-  
-    
-  
-
 </template>
 
 <script>
 export default {
   name: 'MenuItem',
-  data() {
-    return {
-      isAdmin: localStorage.getItem("isAdmin") === "true",
-    }
-  },
-  mounted() {
-    // При завантаженні компонента перевіряємо localStorage
-    const adminStatus = localStorage.getItem("isAdmin");
-    if (adminStatus === "true") {
-      this.isAdmin = true; // Якщо користувач адмін, оновлюємо статус
-    }
-  },
   props: {
     dish: {
       type: Object,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     editDish() {
-      alert("Редагування страви");
+      alert('Редагувати страву');
     },
-    deleteDish() {
-      alert("Видалення страви");
-    },
+    confirmDeleteDish() {
+      if (confirm('Ви впевнені, що хочете видалити страву?')){
+        this.$emit('delete-dish', this.dish.name);
+      }
+    }
   }
 };
 </script>
+
+<style>
+/* Стилі для відображення кожної страви */
+.dish-item {
+  margin-bottom: 20px;
+}
+
+.price {
+  font-weight: bold;
+}
+</style>
+
 
 <style>
 .dish-item {

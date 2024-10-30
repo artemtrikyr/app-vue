@@ -4,20 +4,15 @@
     <aside class="spa-sidebar">
       <h2>Послуги</h2>
       <ul>
-        <li v-for="category in categories" :key="category" @click="selectCategory(category)">
+        <li v-for="category in categoriesSpa" :key="category" @click="selectCategory(category)">
           {{ category }}
         </li>
       </ul>
-      <div v-if="isAdmin">
-        <button id="button-menu" @click="addCategory">Додати категорію</button>
-      </div>
     </aside>
 
     <!-- Права скролювана колонка з MenuList -->
     <section class="spa-content">
       <SpaList :currentCategory="currentCategory" />
-      <button v-if="isAdmin" id="button-menu" @click="addServise">Додати послугу</button>
-      <button v-if="isAdmin" id="button-menu" @click="deleteCategory">Видалити категорію</button>
     </section>
   </div>
 
@@ -34,7 +29,7 @@ export default {
   },
   data() {
     return {
-      categories: [
+      categoriesSpa: [
         'Масажі',
         'Догляд за обличчям',
         'Догляд за тілом',
@@ -43,28 +38,12 @@ export default {
         'СПА для пари'
       ],
       currentCategory: 'Масажі',
-      isAdmin: localStorage.getItem("isAdmin") === "true",
     };
-  },
-  mounted() {
-    const adminStatus = localStorage.getItem("isAdmin");
-    if (adminStatus === "true") {
-      this.isAdmin = true;
-    }
   },
   methods: {
     selectCategory(category) {
       this.currentCategory = category;
     },
-    addServise() {
-      alert("Додавання послуги");
-    },
-    deleteCategory() {
-      alert("Видалення категорії");
-    },
-    addCategory() {
-      alert("Додавання категорії")
-    }
   },
 };
 </script>
@@ -74,7 +53,6 @@ export default {
 .spa-container {
   display: flex;
   min-height: 100vh;
-  /* Змінено на мінімальну висоту */
   padding-top: 25px;
   background-image: url("https://bushi-resort-spa-skopje.hotelmix.com.ua/data/Photos/OriginalPhoto/15567/1556718/1556718961/Bushi-Resort-Spa-Skopje-Exterior.JPEG");
   background-size: cover;

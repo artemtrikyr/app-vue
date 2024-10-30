@@ -3,8 +3,6 @@
     <h3>{{ servis.name }}</h3>
     <p>{{ servis.description }}</p>
     <span class="price">{{ servis.price }} грн</span><br><br>
-    <button id="button-edit-delete" v-if="isAdmin" @click="editServies">Редагувати</button>
-    <button id="button-edit-delete" v-if="isAdmin" @click="deleteServies">Видалити</button>
   </div>
   
 </template>
@@ -13,31 +11,12 @@
 <script>
 export default {
   name: 'SpaItem',
-  data() {
-    return {
-      isAdmin: localStorage.getItem("isAdmin") === "true",
-    }
-  },
-  mounted() {
-    const adminStatus = localStorage.getItem("isAdmin");
-    if (adminStatus === "true") {
-      this.isAdmin = true; 
-    }
-  },
   props: {
     servis: {
       type: Object,
       required: true,
     },
   },
-  methods: {
-    editServies() {
-      alert("Редагування страви");
-    },
-    deleteServies() {
-      alert("Видалення страви");
-    },
-  }
 };
 </script>
 

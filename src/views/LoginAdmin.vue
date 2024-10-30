@@ -18,7 +18,6 @@
         <p v-if="errorMessage" class="error"> {{ errorMessage }}</p>
     </div>
 </template>
-
 <script>
 export default {
     name: "LoginAdmin",
@@ -33,7 +32,7 @@ export default {
     methods: {
         login() {
             // Перевірка логіну і пароля
-            if (this.username === "admingastro" && this.password === "GastroWer2024") {
+            if (this.username === "a" && this.password === "a") {
                 localStorage.setItem("isAdmin", "true");
                 this.$router.push("/");
             } else {
@@ -46,9 +45,6 @@ export default {
     },
 };
 </script>
-
-
-
 <style>
 .login-container {
     max-width: 400px;
@@ -58,16 +54,13 @@ export default {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-
 form div {
     margin-bottom: 15px;
 }
-
 label {
     display: block;
     font-weight: bold;
 }
-
 input {
     width: 95%;
     padding: 10px;
@@ -75,7 +68,6 @@ input {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 #button-login-ad {
     background-color: #56423e;
     width: 90px;
@@ -87,11 +79,9 @@ input {
     transition: all 0.3s ease;
     cursor: pointer;
 }
-
 .error {
     color: red;
 }
-
 #show-hide{
     background-color: #56423e;
     color: aliceblue;

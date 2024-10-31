@@ -1,9 +1,9 @@
 <template>
   <div>
     <h2>{{ currentCategory }}</h2>
-    <div v-if="isAdmin">
+    <div v-if="isAdmin" class="isAdmin">
       <button @click="$emit('add-dish')">Додати страву</button>
-      <button @click="$emit('delete-category', currentCategory)">Видалити категорію</button>
+      <button @click="confirmDeleteCategory">Видалити категорію</button>
     </div>
     <div v-for="dish in dishes" :key="dish.name">
       <MenuItem :dish="dish" 
@@ -11,7 +11,6 @@
       @delete-dish="handleDeleteDish"
       />
     </div>
-    
   </div>
 </template>
 
@@ -35,25 +34,25 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getDishesByCategory']),
-    dishes() {
-      return this.getDishesByCategory(this.currentCategory);
-    }
+    ...mapGetters('menuStore', ['getDishesByCategory']),
+    dishes() {return this.getDishesByCategory(this.currentCategory);}
   },
   methods: {
-      ...mapActions(['deleteDish']),
-      handleDeleteDish(dishName) {
+    ...mapActions('menuStore', ['deleteDish']),
+    handleDeleteDish(dishName) {
       this.deleteDish({ category: this.currentCategory, dishName });
+    },
+    confirmDeleteCategory(){
+      if(confirm('Ви впевнені що хочете видалити категорію?')){
+        this.$emit('delete-category', this.currentCategory)
+      }
     }
-
   }
 };
 </script>
 
-
 <style>
-h2 {
+h4 {
   font-size: 2rem;
-  margin-bottom: 20px;
 }
 </style>

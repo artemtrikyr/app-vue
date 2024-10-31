@@ -3,6 +3,9 @@
     <h3>{{ servis.name }}</h3>
     <p>{{ servis.description }}</p>
     <span class="price">{{ servis.price }} грн</span><br><br>
+    <div v-if="isAdmin" class="isAdmin">
+      <button @click="confirmDeleteService">Видалити</button>
+    </div>
   </div>
   
 </template>
@@ -16,7 +19,18 @@ export default {
       type: Object,
       required: true,
     },
+    isAdmin: {
+      type: Boolean,
+      default: false
+    }
   },
+  methods: {
+    confirmDeleteService() {
+      if (confirm('Ви впевнені, що хочете видалити послугу?')){
+        this.$emit('delete-service', this.servis.name);
+      }
+    }
+  }
 };
 </script>
 
@@ -55,7 +69,7 @@ export default {
   background-color: #3498db;
 }
 
-.button-menu-item {
+/* .button-menu-item {
   padding-left: 10px;
-}
+} */
 </style>

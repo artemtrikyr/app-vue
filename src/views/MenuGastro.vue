@@ -10,7 +10,7 @@
           </li>
         </ul>
 
-        <div v-if="isAdmin">
+        <div v-if="isAdmin" class="isAdmin">
           <input type="text" v-model="newCategory" placeholder="Нова категорія" /><br>
           <button @click="addCategory(newCategory)">Додати категорію</button>
         </div>
@@ -18,10 +18,8 @@
 
       <!-- Відображення контенту -->
       <section class="menu-content">
-        <MenuList :currentCategory="currentCategory" 
-        :isAdmin="isAdmin" 
-        @add-dish="openAddDishForm"
-        @delete-category="handleDeleteCategory" />
+        <MenuList :currentCategory="currentCategory" :isAdmin="isAdmin" @add-dish="openAddDishForm"
+          @delete-category="handleDeleteCategory" />
       </section>
 
       <!-- Можливість додавання страви -->
@@ -58,16 +56,12 @@ export default {
   },
 
   computed: {
-    ...mapState(['categoriesMenu']),
-    isAdmin() {
-      return localStorage.getItem("isAdmin") === "true";
-    }
+    ...mapState('menuStore', ['categoriesMenu']),
+    isAdmin() { return localStorage.getItem("isAdmin") === "true"; }
   },
   methods: {
-    ...mapActions(['addCategory', 'deleteCategory', 'addDish']),
-    selectCategory(category) {
-      this.currentCategory = category;
-    },
+    ...mapActions('menuStore', ['addCategory', 'deleteCategory', 'addDish']),
+    selectCategory(category) { this.currentCategory = category; },
 
     //метод видалення категоріїї
     handleDeleteCategory(currentCategory) {
@@ -86,9 +80,9 @@ export default {
     },
 
     handleAddDish() {
-      if(this.newDishName && this.newDishDescription && this.newDishPrice){
-        const newDish = 
-        { 
+      if (this.newDishName && this.newDishDescription && this.newDishPrice) {
+        const newDish =
+        {
           name: this.newDishName,
           description: this.newDishDescription,
           price: this.newDishPrice
@@ -103,18 +97,20 @@ export default {
 };
 </script>
 <style>
+
 /* Загальна сторінка */
 .menu-container {
   display: flex;
   min-height: 100vh;
   padding-top: 25px;
-  background-image: url("https://media.admagazine.ru/photos/61bc62f42892c167ea82922a/16:9/w_2560%2Cc_limit/%25D0%25BE%25D0%25B1%25D0%25BB%25D0%25BE%25D0%25B6%25D0%25BA%25D0%25B0.jpg");
+  background-image: url('@/assets/background-menu.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   background-repeat: no-repeat;
   position: relative;
 }
+
 
 .menu-container::before {
   content: "";
@@ -186,17 +182,53 @@ export default {
   font-weight: bolder;
 }
 
-
+/* Форма для додавання страв\послуг */
 .add-dish-form {
+  display: flex;
+  flex-direction: column;
   margin-top: 20px;
   padding: 15px;
-  background-color: #333;
+  background-color: #331B17;
+  opacity: 0.9;
   color: white;
   border-radius: 8px;
-  z-index: 2;
-}
-.add-dish-form input {
-  margin-right: 10px;
+  z-index: 1;
+  max-width: 300px;
 }
 
+
+.add-dish-form input,
+.add-dish-form button {
+  margin-bottom: 10px;
+  /* Відступ між елементами */
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+.add-dish-form input#description {
+  height: 60px;
+  /* Збільшена висота для опису */
+  resize: vertical;
+  /* Дозволяє змінювати висоту вручну */
+}
+
+.add-dish-form h3 {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.add-dish-form button {
+  cursor: pointer;
+  background-color: #444;
+  color: white;
+  border: none;
+  transition: all 0.3s;
+}
+
+.add-dish-form button:hover {
+  background-color: #555;
+}
 </style>

@@ -29,4 +29,15 @@ body {
   background-color: #f4f4f4;
   margin: 0;
 }
+.isAdmin button{
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #444;
+  margin-top: 7px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  color: white;
+  border: none;
+  transition: all 0.3s;
+}
 </style>

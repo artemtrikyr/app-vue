@@ -8,18 +8,36 @@
           {{ category }}
         </li>
       </ul>
+
+      <div v-if="isAdmin" class="isAdmin">
+          <input type="text" v-model="newCategory" placeholder="Нова категорія" /><br>
+          <button @click="addCategory(newCategory)">Додати категорію</button>
+        </div>
     </aside>
 
     <!-- Права скролювана колонка з MenuList -->
     <section class="spa-content">
-      <SpaList :currentCategory="currentCategory" />
+      <SpaList :currentCategory="currentCategory" 
+      :isAdmin="isAdmin" 
+      @add-service="openAddServiceForm"
+      @delete-category="handleDeleteCategory"/>
     </section>
+
+    <div v-if="showAddServiceForm" class="add-service-form">
+        <h3>Додати нову послугу до {{ currentCategory }}</h3>
+        <input type="text" v-model="newServiceName" placeholder="Назва послуги" />
+        <input type="text" v-model="newServiceDescription" placeholder="Опис послуги" />
+        <input type="number" v-model="newServicePrice" placeholder="Ціна послуги" />
+        <button @click="handleAddService">Додати послугу</button>
+        <button @click="closeAddServiceForm">Скасувати</button>
+      </div>
   </div>
 
 
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import SpaList from '@/components/SpaList.vue';
 
 export default {
@@ -29,20 +47,53 @@ export default {
   },
   data() {
     return {
-      categoriesSpa: [
-        'Масажі',
-        'Догляд за обличчям',
-        'Догляд за тілом',
-        'Манікюр та педикюр',
-        'Сауна та бані',
-        'СПА для пари'
-      ],
       currentCategory: 'Масажі',
+      newCategory: "",
+      newServiceName: "",
+      newServiceDescription: "",
+      newServicePrice: null,
+      showAddServiceForm: false,
     };
   },
+
+  computed: {
+      ...mapState('serviceStore', ['categoriesSpa']),
+      isAdmin() {return localStorage.getItem("isAdmin") === "true";}
+  },
+
   methods: {
-    selectCategory(category) {
-      this.currentCategory = category;
+    ...mapActions('serviceStore', ['addCategory', 'deleteCategory', 'addService']),
+    selectCategory(category) {this.currentCategory = category;},
+    
+    //метод видалення категоріїї
+    handleDeleteCategory(currentCategory) {
+      this.deleteCategory(currentCategory);
+    },
+
+    openAddServiceForm() {
+      this.showAddServiceForm = true;
+    },
+
+    closeAddServiceForm() {
+      this.showAddServiceForm = false;
+      this.newServiceName = ""; // очищаємо поле введення
+      this.newServiceDescription = "";
+      this.newServicePrice = null;
+    },
+
+    handleAddService() {
+      if(this.newServiceName && this.newServiceDescription && this.newServicePrice){
+        const newService = 
+        { 
+          name: this.newServiceName,
+          description: this.newServiceDescription,
+          price: this.newServicePrice
+        };
+        this.addService({ category: this.currentCategory, servis: newService });
+        this.closeAddServiceForm();
+      } else {
+        alert("Введіть усі данні для послуги");
+      }
     },
   },
 };
@@ -54,7 +105,7 @@ export default {
   display: flex;
   min-height: 100vh;
   padding-top: 25px;
-  background-image: url("https://bushi-resort-spa-skopje.hotelmix.com.ua/data/Photos/OriginalPhoto/15567/1556718/1556718961/Bushi-Resort-Spa-Skopje-Exterior.JPEG");
+  background-image: url('@/assets/background-spa.jpg');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -135,5 +186,54 @@ export default {
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease;
   font-weight: bolder;
+}
+/* Форма для додавання страв\послуг */
+.add-service-form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #331B17;
+  opacity: 0.9;
+  color: white;
+  border-radius: 8px;
+  z-index: 1;
+  max-width: 300px;
+}
+
+
+.add-service-form input,
+.add-service-form button {
+  margin-bottom: 10px;
+  /* Відступ між елементами */
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+}
+
+.add-service-form input#description {
+  height: 60px;
+  /* Збільшена висота для опису */
+  resize: vertical;
+  /* Дозволяє змінювати висоту вручну */
+}
+
+.add-service-form h3 {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  text-align: center;
+}
+
+.add-service-form button {
+  cursor: pointer;
+  background-color: #444;
+  color: white;
+  border: none;
+  transition: all 0.3s;
+}
+
+.add-service-form button:hover {
+  background-color: #555;
 }
 </style>

@@ -32,7 +32,7 @@ export default {
     methods: {
         login() {
             // Перевірка логіну і пароля
-            if (this.username === "a" && this.password === "a") {
+            if (this.username === "admin" && this.password === "admin") {
                 localStorage.setItem("isAdmin", "true");
                 this.$router.push("/");
             } else {

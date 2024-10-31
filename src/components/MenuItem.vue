@@ -3,8 +3,7 @@
     <h3>{{ dish.name }}</h3>
     <p>{{ dish.description }}</p>
     <span class="price">{{ dish.price }} грн</span> <br>
-    <div v-if="isAdmin">
-      <button @click="editDish">Редагувати</button>
+    <div v-if="isAdmin" class="isAdmin">
       <button @click="confirmDeleteDish">Видалити</button>
     </div>
   </div>
@@ -24,9 +23,6 @@ export default {
     }
   },
   methods: {
-    editDish() {
-      alert('Редагувати страву');
-    },
     confirmDeleteDish() {
       if (confirm('Ви впевнені, що хочете видалити страву?')){
         this.$emit('delete-dish', this.dish.name);

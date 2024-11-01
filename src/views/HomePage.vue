@@ -30,7 +30,7 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-image: url("https://www.christravelblog.com/wp-content/uploads/2015/09/IMG_1974-czech-intercontinental-prague-luxury-hotel-review-002.jpg");
+  background-image: url('@/assets/background-home.png');
   background-size: cover;
   background-position: center;
   position: relative;

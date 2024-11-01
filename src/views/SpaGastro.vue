@@ -63,6 +63,7 @@ export default {
 
   methods: {
     ...mapActions('serviceStore', ['addCategory', 'deleteCategory', 'addService']),
+
     selectCategory(category) {this.currentCategory = category;},
     
     //метод видалення категоріїї
@@ -76,7 +77,7 @@ export default {
 
     closeAddServiceForm() {
       this.showAddServiceForm = false;
-      this.newServiceName = ""; // очищаємо поле введення
+      this.newServiceName = ""; 
       this.newServiceDescription = "";
       this.newServicePrice = null;
     },

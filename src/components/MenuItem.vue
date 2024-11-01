@@ -33,18 +33,6 @@ export default {
 </script>
 
 <style>
-/* Стилі для відображення кожної страви */
-.dish-item {
-  margin-bottom: 20px;
-}
-
-.price {
-  font-weight: bold;
-}
-</style>
-
-
-<style>
 .dish-item {
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;

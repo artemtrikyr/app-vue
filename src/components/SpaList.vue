@@ -39,12 +39,11 @@ export default {
   },
   methods: {
     ...mapActions('serviceStore', ['deleteService']),
-      addDish(){
-        alert('чиназес')
-      },
+      
     handleDeleteService(serviceName) {
       this.deleteService({ category: this.currentCategory, serviceName });
     },
+    
     confirmDeleteCategory(){
       if(confirm('Ви впевнені що хочете видалити категорію?')){
         this.$emit('delete-category', this.currentCategory)

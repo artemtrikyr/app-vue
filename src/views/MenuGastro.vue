@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     ...mapActions('menuStore', ['addCategory', 'deleteCategory', 'addDish']),
+    
     selectCategory(category) { this.currentCategory = category; },
 
     //метод видалення категоріїї

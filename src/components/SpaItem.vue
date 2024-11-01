@@ -68,8 +68,4 @@ export default {
   transition: all 0.3s ease;
   background-color: #3498db;
 }
-
-/* .button-menu-item {
-  padding-left: 10px;
-} */
 </style>

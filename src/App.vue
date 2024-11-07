@@ -48,7 +48,7 @@ body {
 
 /* Анімація переходу */
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 0.9s ease;
+  transition: opacity 1.1s ease;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;

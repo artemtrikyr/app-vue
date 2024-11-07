@@ -18,8 +18,10 @@
 
       <!-- Відображення контенту -->
       <section class="menu-content">
-        <MenuList :currentCategory="currentCategory" :isAdmin="isAdmin" @add-dish="openAddDishForm"
-          @delete-category="handleDeleteCategory" />
+        <MenuList :currentCategory="currentCategory" 
+        :isAdmin="isAdmin" 
+        @add-dish="openAddDishForm"
+        @delete-category="handleDeleteCategory" />
       </section>
 
       <!-- Можливість додавання страви -->

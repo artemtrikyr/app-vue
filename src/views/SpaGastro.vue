@@ -81,7 +81,6 @@ export default {
       this.newServiceDescription = "";
       this.newServicePrice = null;
     },
-
     handleAddService() {
       if(this.newServiceName && this.newServiceDescription && this.newServicePrice){
         const newService = 

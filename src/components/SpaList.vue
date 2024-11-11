@@ -6,10 +6,7 @@
       <button @click="confirmDeleteCategory">Видалити категорію</button>
     </div>
     <div v-for="servis in getServiceByCategory(currentCategory)" :key="servis.name">
-      <SpaItem :servis="servis" 
-      :isAdmin="isAdmin" 
-      @delete-service="handleDeleteService"
-      />
+      <SpaItem :servis="servis" :isAdmin="isAdmin" @delete-service="handleDeleteService" />
     </div>
   </div>
 </template>
@@ -35,17 +32,18 @@ export default {
   },
   computed: {
     ...mapGetters('serviceStore', ['getServiceByCategory']),
-    spaServises() {return this.getServiceByCategory(this.currentCategory);}
+    spaServises() { return this.getServiceByCategory(this.currentCategory); }
   },
   methods: {
     ...mapActions('serviceStore', ['deleteService']),
-      
-    handleDeleteService(serviceName) {
-      this.deleteService({ category: this.currentCategory, serviceName });
+
+    handleDeleteService(service) {
+      this.deleteService({ category: this.currentCategory, service });
     },
-    
-    confirmDeleteCategory(){
-      if(confirm('Ви впевнені що хочете видалити категорію?')){
+
+
+    confirmDeleteCategory() {
+      if (confirm('Ви впевнені що хочете видалити категорію?')) {
         this.$emit('delete-category', this.currentCategory)
       }
     }

@@ -2,14 +2,28 @@
   <div class="dish-item">
     <h3>{{ dish.name }}</h3>
     <p>{{ dish.description }}</p>
-    <span class="price">{{ dish.price }} грн</span> <br>
-    <div v-if="isAdmin" class="isAdmin">
+    <span class="price">{{ dish.price }} грн</span>
+    
+    <div v-if="isAdmin" class="admin-actions">
       <button @click="confirmDeleteDish">Видалити</button>
+      <!-- Додати кнопку редагування, якщо потрібно -->
+      <button @click="toggleEditForm">Редагувати</button>
+    </div>
+    
+    <!-- Форма редагування -->
+    <div v-if="editFormVisible" class="edit-form">
+      <input v-model="editedDish.name" placeholder="Нову назву страви" />
+      <input v-model="editedDish.description" placeholder="Новий опис" />
+      <input v-model="editedDish.price" type="number" placeholder="Нова ціна" />
+      <button @click="submitEdit">Зберегти</button>
+      <button @click="toggleEditForm">Скасувати</button>
     </div>
   </div>
 </template>
 
 <script>
+import Swal from 'sweetalert2';
+
 export default {
   name: 'MenuItem',
   props: {
@@ -19,20 +33,50 @@ export default {
     },
     isAdmin: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+  },
+  data() {
+    return {
+      editFormVisible: false,
+      editedDish: { ...this.dish }, // Копія даних для редагування
+    };
   },
   methods: {
+    // Підтвердження видалення
     confirmDeleteDish() {
-      if (confirm('Ви впевнені, що хочете видалити страву?')){
-        this.$emit('delete-dish', this.dish.name);
+      Swal.fire({
+        title: 'Ви впевнені?',
+        text: 'Цей процес не можна скасувати!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Так, видалити!',
+        cancelButtonText: 'Скасувати',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          this.$emit('delete-dish', this.dish.name);
+        }
+      });
+    },
+    
+    // Перемикання форми редагування
+    toggleEditForm() {
+      this.editFormVisible = !this.editFormVisible;
+      if (!this.editFormVisible) {
+        this.editedDish = { ...this.dish }; // Скидання змін
       }
-    }
-  }
+    },
+    
+    // Надсилання редагованих даних
+    submitEdit() {
+      this.$emit('update-dish', this.editedDish); // Відправка відредагованих даних
+      this.toggleEditForm(); // Закриття форми редагування
+    },
+  },
 };
 </script>
 
-<style>
+<style scoped>
 .dish-item {
   border-bottom: 1px solid #ccc;
   padding-bottom: 10px;
@@ -53,7 +97,7 @@ export default {
   color: #d8d8d8;
 }
 
-#button-edit-delete {
+.admin-actions button {
   background-color: #573f3f;
   color: white;
   border: none;
@@ -63,12 +107,32 @@ export default {
   margin-right: 10px;
 }
 
-#button-edit-delete:hover {
-  transition: all 0.3s ease;
+.admin-actions button:hover {
   background-color: #3498db;
+  transition: all 0.3s ease;
 }
 
-.button-menu-item {
-  padding-left: 10px;
+.edit-form {
+  margin-top: 10px;
+}
+
+.edit-form input {
+  display: block;
+  margin: 10px 0;
+  padding: 5px;
+  width: 100%;
+}
+
+.edit-form button {
+  background-color: #3498db;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-form button:hover {
+  background-color: #2e8cc9;
 }
 </style>

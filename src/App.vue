@@ -38,23 +38,22 @@ export default {
 }
 </script>
 
-
 <style>
 body {
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   background-color: #f4f4f4;
   margin: 0;
 }
-
 /* Анімація переходу */
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1.1s ease;
+  transition: opacity 0.9s ease;
 }
 .fade-enter, .fade-leave-to {
   opacity: 0;
 }
 
-.isAdmin button{
+
+.isAdmin button {
   cursor: pointer;
   border-radius: 5px;
   background-color: #444;

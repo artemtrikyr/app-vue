@@ -2,26 +2,25 @@
   <div>
     <div class="menu-container">
       <aside class="menu-sidebar">
-        <!-- Відображення категорій зліва -->
         <h2>Меню</h2>
+        <!-- Відображення -->
         <ul>
-          <li v-for="category in categoriesMenu" :key="category" @click="selectCategory(category)">
-            {{ category }}
+          <li v-for="category in categoriesMenu" :key="category.id" @click="selectCategory(category.name)">
+            {{ category.name }}
           </li>
         </ul>
 
         <div v-if="isAdmin" class="isAdmin">
           <input type="text" v-model="newCategory" placeholder="Нова категорія" /><br>
-          <button @click="addCategory(newCategory)">Додати категорію</button>
+          <button @click="addCategory">Додати категорію</button>
         </div>
       </aside>
 
-      <!-- Відображення контенту -->
       <section class="menu-content">
         <MenuList :currentCategory="currentCategory" 
-        :isAdmin="isAdmin" 
-        @add-dish="openAddDishForm"
-        @delete-category="handleDeleteCategory" />
+                  :isAdmin="isAdmin" 
+                  @add-dish="openAddDishForm"
+                  @delete-category="handleDeleteCategory" />
       </section>
 
       <!-- Можливість додавання страви -->
@@ -38,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import  db  from "@/firebase-config.js"; // Імпортуйте Firebase конфігурацію
 import MenuList from "@/components/MenuList.vue";
 
 export default {
@@ -48,7 +47,8 @@ export default {
   },
   data() {
     return {
-      currentCategory: "Перші страви",
+      categoriesMenu: [],
+      currentCategory: "",
       newCategory: "",
       newDishName: "",
       newDishDescription: "",
@@ -56,22 +56,52 @@ export default {
       showAddDishForm: false,
     };
   },
-
   computed: {
-    ...mapState('menuStore', ['categoriesMenu']),
     isAdmin() { return localStorage.getItem("isAdmin") === "true"; }
   },
   methods: {
-    ...mapActions('menuStore', ['addCategory', 'deleteCategory', 'addDish']),
-    
-    selectCategory(category) { this.currentCategory = category; },
-
-    //метод видалення категоріїї
-    handleDeleteCategory(currentCategory) {
-      this.deleteCategory(currentCategory);
+    // Отримання категорій з Firestore
+    async fetchCategories() {
+      try {
+        const snapshot = await db.collection("categories").get();
+        this.categoriesMenu = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        if (this.categoriesMenu.length > 0) {
+          this.currentCategory = this.categoriesMenu[0].name; // Встановлюємо першу категорію за замовчуванням
+        }
+      } catch (error) {
+        console.error("Помилка при завантаженні категорій: ", error);
+      }
     },
 
-    //метод додававння страви
+    // Додавання нової категорії до Firestore
+    async addCategory() {
+      if (this.newCategory.trim()) {
+        try {
+          await db.collection("categories").add({ name: this.newCategory });
+          this.fetchCategories(); // Оновлюємо категорії після додавання
+          this.newCategory = "";
+        } catch (error) {
+          console.error("Помилка при додаванні категорії: ", error);
+        }
+      }
+    },
+
+    // Видалення категорії
+    async handleDeleteCategory(categoryName) {
+      try {
+        const snapshot = await db.collection("categories").where("name", "==", categoryName).get();
+        snapshot.forEach(doc => doc.ref.delete());
+        this.fetchCategories(); // Оновлюємо категорії після видалення
+      } catch (error) {
+        console.error("Помилка при видаленні категорії: ", error);
+      }
+    },
+
+    selectCategory(category) {
+      this.currentCategory = category;
+    },
+
+    // Відкриття форми додавання страви
     openAddDishForm() {
       this.showAddDishForm = true;
     },
@@ -82,23 +112,36 @@ export default {
       this.newDishPrice = null;
     },
 
-    handleAddDish() {
+    // Додавання нової страви до поточної категорії
+    async handleAddDish() {
       if (this.newDishName && this.newDishDescription && this.newDishPrice) {
-        const newDish =
-        {
+        const newDish = {
           name: this.newDishName,
           description: this.newDishDescription,
           price: this.newDishPrice
         };
-        this.addDish({ category: this.currentCategory, dish: newDish });
-        this.closeAddDishForm();
+
+        try {
+          await db.collection("categories").doc(this.currentCategory.id).collection("dishes").add(newDish);
+          this.closeAddDishForm();
+        } catch (error) {
+          console.error("Помилка при додаванні страви: ", error);
+        }
       } else {
         alert("Введіть усі данні для страви");
       }
     },
   },
+  async created() {
+    await this.fetchCategories();
+  },
 };
 </script>
+
+<style>
+/* Додайте ваш CSS тут */
+</style>
+
 <style>
 
 /* Загальна сторінка */

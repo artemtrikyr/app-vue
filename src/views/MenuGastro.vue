@@ -2,23 +2,26 @@
   <div>
     <div class="menu-container">
       <aside class="menu-sidebar">
+        <!-- Відображення категорій зліва -->
         <h2>Меню</h2>
-        <!-- Відображення -->
         <ul>
-          <li v-for="category in categoriesMenu" :key="category.id" @click="selectCategory(category.name)">
-            {{ category.name }}
+          <li v-for="category in categoriesMenu" :key="category" @click="selectCategory(category)">
+            {{ category }}
           </li>
         </ul>
 
         <div v-if="isAdmin" class="isAdmin">
           <input type="text" v-model="newCategory" placeholder="Нова категорія" /><br>
-          <button @click="addCategory">Додати категорію</button>
+          <button @click="addCategory(newCategory)">Додати категорію</button>
         </div>
       </aside>
 
+      <!-- Відображення контенту -->
       <section class="menu-content">
-        <MenuList :currentCategory="currentCategory" :isAdmin="isAdmin" @add-dish="openAddDishForm"
-          @delete-category="handleDeleteCategory" />
+        <MenuList :currentCategory="currentCategory" 
+        :isAdmin="isAdmin" 
+        @add-dish="openAddDishForm"
+        @delete-category="handleDeleteCategory" />
       </section>
 
       <!-- Можливість додавання страви -->
@@ -35,6 +38,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import MenuList from "@/components/MenuList.vue";
 
 export default {
@@ -44,8 +48,7 @@ export default {
   },
   data() {
     return {
-      categoriesMenu: [],
-      currentCategory: "",
+      currentCategory: "Перші страви",
       newCategory: "",
       newDishName: "",
       newDishDescription: "",
@@ -53,50 +56,51 @@ export default {
       showAddDishForm: false,
     };
   },
+
   computed: {
+    ...mapState('menuStore', ['categoriesMenu']),
     isAdmin() { return localStorage.getItem("isAdmin") === "true"; }
   },
   methods: {
     ...mapActions('menuStore', ['addCategory', 'deleteCategory', 'addDish']),
+    
     selectCategory(category) { this.currentCategory = category; },
 
-    // Видалення категорії
+    //метод видалення категоріїї
     handleDeleteCategory(currentCategory) {
       this.deleteCategory(currentCategory);
-
-      // Відкриття форми додавання страви
-      openAddDishForm() {
-        this.showAddDishForm = true;
-      };
-      closeAddDishForm() {
-        this.showAddDishForm = false;
-        this.newDishName = ""; // очищаємо поле введення
-        this.newDishDescription = "";
-        this.newDishPrice = null;
-      };
-
-      // Додавання нової страви до поточної категорії
-      handleAddDish() {
-        if (this.newDishName && this.newDishDescription && this.newDishPrice) {
-          const newDish =
-          {
-            name: this.newDishName,
-            description: this.newDishDescription,
-            price: this.newDishPrice
-          };
-          this.addDish({ category: this.currentCategory, dish: newDish });
-          this.closeAddDishForm();
-        } else {
-          alert("Введіть усі данні для страви");
-        }
-      };
     },
-  }
-}
+
+    //метод додававння страви
+    openAddDishForm() {
+      this.showAddDishForm = true;
+    },
+    closeAddDishForm() {
+      this.showAddDishForm = false;
+      this.newDishName = ""; // очищаємо поле введення
+      this.newDishDescription = "";
+      this.newDishPrice = null;
+    },
+
+    handleAddDish() {
+      if (this.newDishName && this.newDishDescription && this.newDishPrice) {
+        const newDish =
+        {
+          name: this.newDishName,
+          description: this.newDishDescription,
+          price: this.newDishPrice
+        };
+        this.addDish({ category: this.currentCategory, dish: newDish });
+        this.closeAddDishForm();
+      } else {
+        alert("Введіть усі данні для страви");
+      }
+    },
+  },
+};
 </script>
-
-
 <style>
+
 /* Загальна сторінка */
 .menu-container {
   display: flex;

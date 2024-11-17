@@ -1,6 +1,5 @@
 <template>
   <div class="servis-item">
-    <h3>{{ servis.id }}</h3>
     <h3>{{ servis.name }}</h3>
     <p>{{ servis.description }}</p>
     <span class="price">{{ servis.price }} грн</span><br><br>
@@ -28,7 +27,7 @@ export default {
   methods: {
     confirmDeleteService() {
       if (confirm('Ви впевнені, що хочете видалити послугу?')){
-        this.$emit('delete-service', this.servis);
+        this.$emit('delete-service', this.servis.name);
       }
     }
   }
@@ -69,8 +68,4 @@ export default {
   transition: all 0.3s ease;
   background-color: #3498db;
 }
-
-/* .button-menu-item {
-  padding-left: 10px;
-} */
 </style>

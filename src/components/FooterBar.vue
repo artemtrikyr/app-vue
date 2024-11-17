@@ -68,8 +68,8 @@
     <div class="footer-bottom-l">
         <div class="footer-bottom-text">
             <span>© GastroWer restaurant</span>
-            <a href="/" class="footer-link">Terms and conditions</a>
-            <a href="/" class="footer-link">Personal data protection</a>
+            <a href="https://www.cross-traffic.com/en/business-terms-and-conditions/" class="footer-link">Terms and conditions</a>
+            <a href="https://www.levanduloveudoli.cz/en/gdpr/?utm_source=google&utm_medium=cpc&utm_campaign=PMax%20%7C%20No_Feed&utm_id=20950578849&gad_source=1&gbraid=0AAAAABd_xTDPD4t2P1gfnVJzSdfhXR0xS&gclid=CjwKCAiAxea5BhBeEiwAh4t5K_rw88kKGlQJkN5uDFiSya0DUlLNRv3rxdy5VOCAFZukDL9iOvBDmhoC7EEQAvD_BwE" class="footer-link">Personal data protection</a>
         </div>
         <div class="back-top">
             <a href="#top" class="footer-link">Back to the top</a>

@@ -36,6 +36,12 @@ export default {
     };
   },
   methods: {
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
+    },
+    GoToHome() {
+      this.$router.push('/');
+    },
     HandleAuth() {
       if (this.isAdmin) {
         localStorage.removeItem("isAdmin");

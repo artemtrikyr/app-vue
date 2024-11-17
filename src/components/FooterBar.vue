@@ -80,6 +80,12 @@
 <script>
 export default {
     name: 'FooterBar',
+    methods: {
+        // goToLogin() {
+        //     // Перехід до сторінки логіну
+        //     this.$router.push("/loginadmin");
+        // },
+    },
 }
 
 </script>
@@ -127,6 +133,21 @@ export default {
 .footer-address {
     margin-bottom: 24px;
 }
+
+/* .footer-button {
+    padding: 10px 20px;
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    font-size: 14px;
+} */
+
+/* .footer-button:hover {
+    background-color: var(--main-black);
+    color: var(--main-white-100);
+} */
 
 /* Футер-Блок 2 */
 .footer-links {

@@ -39,7 +39,6 @@ export default {
   },
   methods: {
     ...mapActions('menuStore', ['deleteDish']),
-    
     handleDeleteDish(dishName) {
       this.deleteDish({ category: this.currentCategory, dishName });
     },

@@ -17,10 +17,8 @@
       </aside>
 
       <section class="menu-content">
-        <MenuList :currentCategory="currentCategory" 
-                  :isAdmin="isAdmin" 
-                  @add-dish="openAddDishForm"
-                  @delete-category="handleDeleteCategory" />
+        <MenuList :currentCategory="currentCategory" :isAdmin="isAdmin" @add-dish="openAddDishForm"
+          @delete-category="handleDeleteCategory" />
       </section>
 
       <!-- Можливість додавання страви -->
@@ -37,7 +35,6 @@
 </template>
 
 <script>
-import  db  from "@/firebase-config.js"; // Імпортуйте Firebase конфігурацію
 import MenuList from "@/components/MenuList.vue";
 
 export default {
@@ -60,90 +57,46 @@ export default {
     isAdmin() { return localStorage.getItem("isAdmin") === "true"; }
   },
   methods: {
-    // Отримання категорій з Firestore
-    async fetchCategories() {
-      try {
-        const snapshot = await db.collection("categories").get();
-        this.categoriesMenu = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        if (this.categoriesMenu.length > 0) {
-          this.currentCategory = this.categoriesMenu[0].name; // Встановлюємо першу категорію за замовчуванням
-        }
-      } catch (error) {
-        console.error("Помилка при завантаженні категорій: ", error);
-      }
-    },
-
-    // Додавання нової категорії до Firestore
-    async addCategory() {
-      if (this.newCategory.trim()) {
-        try {
-          await db.collection("categories").add({ name: this.newCategory });
-          this.fetchCategories(); // Оновлюємо категорії після додавання
-          this.newCategory = "";
-        } catch (error) {
-          console.error("Помилка при додаванні категорії: ", error);
-        }
-      }
-    },
+    ...mapActions('menuStore', ['addCategory', 'deleteCategory', 'addDish']),
+    selectCategory(category) { this.currentCategory = category; },
 
     // Видалення категорії
-    async handleDeleteCategory(categoryName) {
-      try {
-        const snapshot = await db.collection("categories").where("name", "==", categoryName).get();
-        snapshot.forEach(doc => doc.ref.delete());
-        this.fetchCategories(); // Оновлюємо категорії після видалення
-      } catch (error) {
-        console.error("Помилка при видаленні категорії: ", error);
-      }
-    },
+    handleDeleteCategory(currentCategory) {
+      this.deleteCategory(currentCategory);
 
-    selectCategory(category) {
-      this.currentCategory = category;
-    },
+      // Відкриття форми додавання страви
+      openAddDishForm() {
+        this.showAddDishForm = true;
+      };
+      closeAddDishForm() {
+        this.showAddDishForm = false;
+        this.newDishName = ""; // очищаємо поле введення
+        this.newDishDescription = "";
+        this.newDishPrice = null;
+      };
 
-    // Відкриття форми додавання страви
-    openAddDishForm() {
-      this.showAddDishForm = true;
-    },
-    closeAddDishForm() {
-      this.showAddDishForm = false;
-      this.newDishName = ""; // очищаємо поле введення
-      this.newDishDescription = "";
-      this.newDishPrice = null;
-    },
-
-    // Додавання нової страви до поточної категорії
-    async handleAddDish() {
-      if (this.newDishName && this.newDishDescription && this.newDishPrice) {
-        const newDish = {
-          name: this.newDishName,
-          description: this.newDishDescription,
-          price: this.newDishPrice
-        };
-
-        try {
-          await db.collection("categories").doc(this.currentCategory.id).collection("dishes").add(newDish);
+      // Додавання нової страви до поточної категорії
+      handleAddDish() {
+        if (this.newDishName && this.newDishDescription && this.newDishPrice) {
+          const newDish =
+          {
+            name: this.newDishName,
+            description: this.newDishDescription,
+            price: this.newDishPrice
+          };
+          this.addDish({ category: this.currentCategory, dish: newDish });
           this.closeAddDishForm();
-        } catch (error) {
-          console.error("Помилка при додаванні страви: ", error);
+        } else {
+          alert("Введіть усі данні для страви");
         }
-      } else {
-        alert("Введіть усі данні для страви");
-      }
+      };
     },
-  },
-  async created() {
-    await this.fetchCategories();
-  },
-};
+  }
+}
 </script>
 
-<style>
-/* Додайте ваш CSS тут */
-</style>
 
 <style>
-
 /* Загальна сторінка */
 .menu-container {
   display: flex;

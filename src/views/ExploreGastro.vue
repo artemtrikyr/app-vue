@@ -11,23 +11,24 @@
         body and mind, providing a peaceful escape from the hustle and bustle of everyday life.
       </p>
     </div>
-    
+
     <div class="between-pages"></div>
-      <div class="page2">
-        <div class="section2-text">
-          <h1>* SPA salon *</h1>
-          <p>The spa at Gastro Wer is a modern oasis of tranquility and relaxation, where guests can unwind and
-            rejuvenate in a harmonious atmosphere. The interior is designed in a minimalist style, using natural materials
-            to create a cozy and calming environment. The spa offers a wide range of services, including various types of
-            massages and facial treatments, aimed at restoring both body and mind.
-          </p>
-        </div>
-        <div class="section2-img">
-          <img
-            src="@/assets/explore-2-1.jpg"
-            alt="cover img">
-        </div>
+
+    <div class="page2">
+      <div class="section2-text">
+        <h1>* SPA salon *</h1>
+        <p>The spa at Gastro Wer is a modern oasis of tranquility and relaxation, where guests can unwind and
+          rejuvenate in a harmonious atmosphere. The interior is designed in a minimalist style, using natural materials
+          to create a cozy and calming environment. The spa offers a wide range of services, including various types of
+          massages and facial treatments, aimed at restoring both body and mind.
+        </p>
       </div>
+      <div class="section2-img">
+        <img
+            src="@/assets/explore-2-1.jpg"
+          alt="cover img">
+      </div>
+    </div>
 
     <div class="between-pages"></div>
 
@@ -73,7 +74,10 @@ export default {
   }
 }
 
+/* -------------------- */
 /* Секція номер 1 */
+/* -------------------- */
+
 /* Загальні налаштування */
 .page1 {
   display: flex;
@@ -136,7 +140,9 @@ export default {
   animation: slide-in-left 1s ease-out forwards; /* Тривалість 1 сек, ефект ease-out */
 }
 
+/* ---------------------- */
 /* Секція номер 2 */
+/* ---------------------- */
 .page2 {
   display: flex;
   justify-content: space-between;
@@ -174,9 +180,13 @@ export default {
 .section2-text {
   display: flex;
   flex-direction: column;
+  /* Вирівнюємо h1 і p колоною */
   justify-content: flex-start;
+  /* Вирівнюємо елементи по верху */
   align-items: flex-start;
+  /* Вирівнюємо текст по лівому краю */
   max-width: 40%;
+  /* Обмежуємо ширину текстового блоку */
 }
 
 .section2-text h1 {
@@ -184,6 +194,7 @@ export default {
   margin-bottom: 20px;
   font-size: 3rem;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  /* Легка тінь для заголовка */
 }
 
 .section2-text p {
@@ -191,13 +202,16 @@ export default {
   font-size: 1.2rem;
   line-height: 1.6;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+  /* Легка тінь для тексту */
 }
 
 /* фото */
 .section2-img {
   max-width: 50%;
+  /* Контролюємо ширину зображення */
   display: flex;
   justify-content: center;
+  /* Центруємо зображення по вертикалі */
 }
 
 .section2-img img {
@@ -206,15 +220,20 @@ export default {
   border-radius: 10px;
   transition: transform 0.5s ease, box-shadow 0.5s ease;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  /* Тінь для зображення */
 }
 
 .section2-img img:hover {
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7);
+  /* Збільшена тінь при наведенні */
   transform: scale(1.05);
+  /* Легке збільшення зображення при наведенні */
 }
 
-
+/* ---------------------- */
 /* Секція номер 3 */
+/* ---------------------- */
+
 .page3 {
   display: flex;
   flex-direction: column;
